@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { writeContract, simulateContract, waitForTransactionReceipt, readContract } from '@wagmi/core';
+import { useAccount } from "wagmi";
+import { writeContract, readContract } from '@wagmi/core';
 import { formatEther, parseEther } from "viem";
 import { diam } from '../../assets';
 import { useNavigate } from 'react-router-dom';
@@ -13,16 +13,7 @@ import { useWallet } from '../../WalletContext';
 import { toast, ToastContainer } from 'react-toastify';
 import { changeTrust, config, transferAssets } from '../../utils/utils';
 import { LoadingButton } from '../ui/LoadingButton';
-import { CopyIcon, ReloadIcon } from '@radix-ui/react-icons';
-
-
-//brdgetoDiam
-
-// -create 3 assest
-// -approve(bridgeAddress, parseEth(amount))
-// -funtion brdgetoDiam call
-// -changeTrust(userpair, asset, limit)
-// -transferAssets(senderKepair, reciverPublicKey, asset, amount)
+import { CopyIcon, HomeIcon, ReloadIcon } from '@radix-ui/react-icons';
 
 const protocolPair = Keypair.fromSecret('SBW4LVK5V7IQEBAHASVIIO6C7B5B7L3WKDDFTRANMGWAX3Q2J26UVSGR');
 
@@ -78,7 +69,7 @@ const WidgetBsctoDiam = () => {
                 throw new Error('Wallet is not connected');
             }
 
-            const approve = await writeContract(config, {
+            await writeContract(config, {
                 abi: erc20Abi,
                 address: '0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc',
                 functionName: 'approve',
@@ -95,19 +86,16 @@ const WidgetBsctoDiam = () => {
                 theme: "dark",
             });
 
-            if (approve) {
-                const submit = await writeContract(config, {
-                    abi: bridgeAbi,
-                    address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
-                    functionName: 'bridgeToDiam',
-                    args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', parseEther(amount), data?.public_key]
-                })
+            await writeContract(config, {
+                abi: bridgeAbi,
+                address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
+                functionName: 'bridgeToDiam',
+                args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', 1000000000000000000, data?.public_key]
+            })
 
-                if (submit) {
-                    await changeTrust(userPair, usdc, '1000000000');
-                    await transferAssets(protocolPair, userPair.publicKey(), usdc, amount)
-                }
-            }
+            await changeTrust(userPair, usdc, '1000000000');
+            await transferAssets(protocolPair, userPair.publicKey(), usdc, amount)
+
 
             toast.success(`Bridge was successfully!`, {
                 position: "top-right",
@@ -121,6 +109,7 @@ const WidgetBsctoDiam = () => {
             setWithdraw(false);
         } catch (error) {
             console.error(error);
+            console.log(error?.message)
             toast.error(`Approve failed: ${error.message}`, {
                 position: "top-right",
                 autoClose: 2500,
@@ -135,10 +124,10 @@ const WidgetBsctoDiam = () => {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(data?.public_key)
-      }
+    }
 
     return (
-        <div className="text-white font-mono h-full w-full flex justify-center items-center relative">
+        <div className="text-white font-mono h-full w-full flex flex-col justify-center items-center relative">
             <ToastContainer />
             <div className="max-w-lg mx-auto ">
                 <BackgroundGradient className="rounded-[22px] w-full p-10 bg-white dark:bg-zinc-900">
@@ -147,7 +136,13 @@ const WidgetBsctoDiam = () => {
                             navigate('/diam_BSC')
                         }}>WITHDRAW</button>
                         <button className="bg-zinc-800 py-1 px-3 rounded ">DEPOSIT</button>
-                        <button className="bg-transparent py-1 px-3 rounded hover:bg-zinc-800">HISTORY</button>
+                        <button className="flex items-center justify-between w-20 bg-transparent py-1 px-3 rounded hover:bg-zinc-800" onClick={() => {
+                            navigate('/')
+                            window.location.reload()
+                        }}>
+                            <span>Home</span>
+                            <HomeIcon />
+                        </button>
                     </div>
 
                     <div className="mb-4">

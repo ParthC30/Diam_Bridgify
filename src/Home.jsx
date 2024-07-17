@@ -1,33 +1,27 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BackgroundGradientAnimation } from './components/ui/background-gradient-animation';
+import { TypewriterEffectSmooth } from './components/ui/typewriter';
+import { words } from './utils/utils';
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-purple-900 via-black to-black text-white">
-      <div className='flex flex-col items-center mt-[80px] text-white text-center'>
-        <h1 className='font-bold text-6xl'>
-          Connext is now <br />
-          <span className='text-center block'>Everclear</span>
-        </h1>
-        <p className="mt-4 text-xl ">We are thrilled to announce that Connext is now Everclear. Visit our new
-          <br /> website to learn more about our rebrand and exciting updates.</p>
-
-        <button className="hidden lg:flex" onClick={() => {
-          navigate("/login");
+    <BackgroundGradientAnimation>
+      <div className='flex flex-col absolute z-10 h-screen w-screen justify-center items-center text-white text-center bg-black bg-opacity-40'>
+        <img src='https://diamanteblockchain.com/wp-content/uploads/2021/01/diam-icon-new.png' alt='Diamante' className='w-52' />
+        <TypewriterEffectSmooth words={words} />
+        <p className="mt-4 text-2xl font-semibold">We have created a bridge for USDC from CodeDao Testnet to Diamante Testnet</p>
+        <button className="px-4 py-2 my-10 mt-10 w-40 h-14 backdrop-blur-sm border bg-blue-600/25 z-10 border-emerald-500/20 text-white mx-auto text-center rounded-full relative" onClick={() => {
+          navigate("/login")
         }}>
-          Get Started
+          <span>Get Started →</span>
+          <div className="absolute inset-x-0  h-px -bottom-px bg-gradient-to-r w-3/4 mx-auto from-transparent via-emerald-500 to-transparent" />
         </button>
 
-        <div className='mt-[40px] '>
-          <button className='border-2 rounded-xl p-2 mr-[40px] text-xl h-[50px] w-[100px]
-    bg-transparent border-purple-500'>Explore</button>
-          <button className='border-2 rounded-xl p-2 text-xl border-white bg-white text-black' ><a href='/swap'>Bridge</a> </button>
-        </div>
-
       </div>
-    </div>
+    </BackgroundGradientAnimation>
   )
 }
 

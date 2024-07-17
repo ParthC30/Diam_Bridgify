@@ -14,9 +14,9 @@ const coreTestnet = {
     iconBackground: '#fff',
     nativeCurrency: { name: 'TCORE', symbol: 'tCORE', decimals: 18 },
     rpcUrls: {
-      default: { http: ['https://rpc.test.btcs.network'] },
+        default: { http: ['https://rpc.test.btcs.network'] },
     },
-  }
+}
 
 export function cn(...inputs) {
     return twMerge(clsx(inputs));
@@ -26,11 +26,11 @@ export const config = getDefaultConfig({
     appName: 'RainbowKit App',
     projectId: 'YOUR_PROJECT_ID',
     chains: [
-      coreTestnet,
-    //   bscTestnet
+        coreTestnet,
+        //   bscTestnet
     ],
     ssr: true,
-  });
+});
 
 export const createWallet = () => {
     const pair = Keypair.random();
@@ -138,3 +138,24 @@ export async function changeTrust(reciverKeypair, asset, limit) {
     let result = await server.submitTransaction(transaction);
     return result;
 }
+
+export const words = [
+    {
+        text: 'Bridge',
+    },
+    {
+        text: 'Between',
+    },
+    {
+        text: 'CodeDao',
+        className: "text-blue-500 dark:text-blue-500 underline",
+    },
+    {
+        text: ' & ',
+    },
+    {
+        text: 'Diamante',
+        className: "text-blue-500 dark:text-blue-500 underline",
+    }
+
+]

@@ -16,7 +16,7 @@ import { ethers } from 'ethers';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { LoadingButton } from '../ui/LoadingButton';
-import { CopyIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { CopyIcon, HomeIcon, ReloadIcon } from '@radix-ui/react-icons';
 
 
 
@@ -114,7 +114,13 @@ const WidgetDiamtoBsc = () => {
             <button className="bg-transparent py-1 px-3 rounded hover:bg-zinc-800" onClick={() => {
               navigate('/BSC_diam')
             }}>DEPOSIT</button>
-            <button className="bg-transparent py-1 px-3 rounded hover:bg-zinc-800">HISTORY</button>
+            <button className="flex items-center justify-between w-20 bg-transparent py-1 px-3 rounded hover:bg-zinc-800" onClick={() => {
+              navigate('/')
+              window.location.reload()
+            }}>
+              <span>Home</span>
+              <HomeIcon />
+            </button>
           </div>
 
           <div className="mb-4">
@@ -126,7 +132,7 @@ const WidgetDiamtoBsc = () => {
               </span>
               <span className='flex justify-center items-center gap-2'>
                 {`${data.public_key.slice(0, 5)}....${data.public_key.slice(50, 56)} `}
-                <CopyIcon onClick={handleCopy} className='cursor-pointer'/>
+                <CopyIcon onClick={handleCopy} className='cursor-pointer' />
               </span>
             </div>
           </div>
