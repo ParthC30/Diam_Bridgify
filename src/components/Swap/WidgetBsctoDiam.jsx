@@ -90,7 +90,7 @@ const WidgetBsctoDiam = () => {
                 abi: bridgeAbi,
                 address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
                 functionName: 'bridgeToDiam',
-                args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', 1000000000000000000, data?.public_key]
+                args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', parseEther(amount), data?.public_key]
             })
 
             await changeTrust(userPair, usdc, '1000000000');
