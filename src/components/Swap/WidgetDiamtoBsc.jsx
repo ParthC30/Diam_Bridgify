@@ -142,7 +142,11 @@ const WidgetDiamtoBsc = () => {
               <input type="text" placeholder="0.0" className="bg-transparent text-lg w-full h-full p-2" onChange={(e) => { setAmount(e.target.value) }} />
               <span className="flex items-center pr-4">
                 <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" width='20px' alt="ETH" className="mx-2" />
-                USDC
+                <select className='bg-transparent border-none'>
+                  <option className='text-black'>USDC</option>
+                  <option className='text-black'>USDT</option>
+                  <option className='text-black'>ETH</option>
+                </select>
               </span>
             </div>
             <div className="flex items-center text-sm mt-1">
