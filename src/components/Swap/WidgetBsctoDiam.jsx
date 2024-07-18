@@ -61,6 +61,9 @@ const WidgetBsctoDiam = () => {
 
     const userPair = Keypair.fromSecret(data?.secret_key);
 
+    console.log(typeof (amount))
+    console.log(typeof (parseEther('10')))
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -86,27 +89,46 @@ const WidgetBsctoDiam = () => {
                 theme: "dark",
             });
 
-            await writeContract(config, {
-                abi: bridgeAbi,
-                address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
-                functionName: 'bridgeToDiam',
-                args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', parseEther(amount), data?.public_key]
-            })
+            try {
 
-            await changeTrust(userPair, usdc, '1000000000');
-            await transferAssets(protocolPair, userPair.publicKey(), usdc, amount)
+                await writeContract(config, {
+                    abi: bridgeAbi,
+                    address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
+                    functionName: 'bridgeToDiam',
+                    args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', parseEther(amount), data?.public_key]
+                })
 
+                await changeTrust(userPair, usdc, '1000000000');
+                
+                await transferAssets(protocolPair, userPair.publicKey(), usdc, amount)
 
-            toast.success(`Bridge was successfully!`, {
-                position: "top-right",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
-            });
+                toast.success(`Bridge was successfully!`, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
+
+            } catch (error) {
+                console.error(error);
+                toast.error(`Approve failed: ${error.message}`, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
+            }
+
             setWithdraw(false);
+
+
+
         } catch (error) {
             console.error(error);
             toast.error(`Approve failed: ${error.message}`, {
