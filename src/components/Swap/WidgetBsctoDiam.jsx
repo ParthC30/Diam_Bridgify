@@ -109,7 +109,6 @@ const WidgetBsctoDiam = () => {
             setWithdraw(false);
         } catch (error) {
             console.error(error);
-            console.log(error?.message)
             toast.error(`Approve failed: ${error.message}`, {
                 position: "top-right",
                 autoClose: 2500,
