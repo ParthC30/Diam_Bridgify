@@ -61,9 +61,6 @@ const WidgetBsctoDiam = () => {
 
     const userPair = Keypair.fromSecret(data?.secret_key);
 
-    console.log(typeof (amount))
-    console.log(typeof (parseEther('10')))
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -93,13 +90,13 @@ const WidgetBsctoDiam = () => {
 
                 await writeContract(config, {
                     abi: bridgeAbi,
-                    address: '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
+                    address: '0x89591978cc7a7f1aA687597d9Ab7656Eb6257917',
                     functionName: 'bridgeToDiam',
                     args: ['0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc', parseEther(amount), data?.public_key]
                 })
 
                 await changeTrust(userPair, usdc, '1000000000');
-                
+
                 await transferAssets(protocolPair, userPair.publicKey(), usdc, amount)
 
                 toast.success(`Bridge was successfully!`, {

@@ -147,7 +147,7 @@ export const words = [
         text: 'Between',
     },
     {
-        text: 'CodeDao',
+        text: 'CoreDao',
         className: "text-blue-500 dark:text-blue-500 underline",
     },
     {
