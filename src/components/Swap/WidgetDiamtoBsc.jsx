@@ -1,17 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance, useSwitchChain, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { parseEther } from "viem";
 import { diam } from '../../assets';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundGradient } from '../ui/background-gradient';
 import { Asset, Keypair } from 'diamante-sdk-js';
-import { config, transferAssets } from '../../utils/utils';
+import { transferAssets } from '../../utils/utils';
 import { useWallet } from '../../WalletContext';
-import { privateKeyToAccount } from 'viem/accounts';
 import bridgeAbi from '../../abi/bridge.json';
-import { sendTransaction } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
@@ -63,7 +61,7 @@ const WidgetDiamtoBsc = () => {
       setDeposit(true);
       await transferAssets(userPair, protocolPair.publicKey(), usdc, amount)
       const contract = new ethers.Contract(
-        '0xeBEEEb9764e4bE3D7C32272214f314b5c5942Efc',
+        '0x89591978cc7a7f1aA687597d9Ab7656Eb6257917',
         bridgeAbi,
         signer
       )

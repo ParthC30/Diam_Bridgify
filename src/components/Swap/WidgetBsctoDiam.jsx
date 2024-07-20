@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from "wagmi";
@@ -40,24 +41,29 @@ const WidgetBsctoDiam = () => {
     const { data } = useWallet();
     const [balance, setBalance] = useState();
 
+    const checkAllowanceAndBalance = async () => {
+        const tokenAddress = '0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc';
+    
+        try {
+    
+            const balance = await readContract(config,{
+                abi: erc20Abi,
+                address: tokenAddress,
+                functionName: 'balanceOf',
+                args: [address]
+            });
+            
+            setBalance(formatEther(balance))
+        } catch (error) {
+            console.error('Error checking allowance and balance:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchBalance = async () => {
-            if (address) {
-                try {
-                    const response = await readContract(config, {
-                        abi: erc20Abi,
-                        address: '0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc',
-                        functionName: 'balanceOf',
-                        args: [address]
-                    });
-                    setBalance(formatEther(response));
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        };
-        fetchBalance();
-    }, [address, withdraw]);
+        if (address) {
+            checkAllowanceAndBalance();
+        }
+    }, [address, amount, withdraw]);
 
     const userPair = Keypair.fromSecret(data?.secret_key);
 
@@ -73,7 +79,7 @@ const WidgetBsctoDiam = () => {
                 abi: erc20Abi,
                 address: '0x3287ec4f30f18230C4e0e9AC0395923371BcD1bc',
                 functionName: 'approve',
-                args: [address, parseEther(amount)],
+                args: ['0x89591978cc7a7f1aA687597d9Ab7656Eb6257917', parseEther(amount)],
             });
 
             toast.success(`Approve was successfully!`, {
